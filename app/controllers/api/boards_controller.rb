@@ -1,7 +1,10 @@
 class Api::BoardsController < ApplicationController
   def index
     @boards = Board.all
-    render :index
+  end
+
+  def show
+    @board = Board.find(params[:id])
   end
 
   def create
