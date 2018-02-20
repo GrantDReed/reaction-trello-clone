@@ -1,5 +1,6 @@
-import { createStore as cs, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import ReduxThunk from 'redux-thunk';
+import { createLogger } from 'redux-logger';
 
 import boardsReducer from '../reducers/BoardsReducer';
 import statusReducer from '../reducers/StatusReducer';
@@ -11,7 +12,16 @@ function reducer(state = {}, action) {
   };
 }
 
+const logger = createLogger({collapsed: true,});
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-export function createStore(initialState = {}) {
-  return cs(reducer, initialState, composeEnhancers(applyMiddleware(ReduxThunk)));
-}
+
+const initialState = {};
+
+const store = createStore(
+  reducer,
+  initialState,
+  composeEnhancers(applyMiddleware(ReduxThunk, logger))
+)
+
+export default store
