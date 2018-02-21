@@ -3,23 +3,30 @@ import PropTypes from 'prop-types';
 
 import CardSummary from './CardSummary';
 
-const sortedCards = (cards) => {
-  const copy = cards.slice();
-  return copy.sort((a, b) => a.position - b.position);
-};
+class ListOfCards extends React.Component {
+  render() {
+    let cardSummaries = ''
 
-const cardSummaries = props.cards.map(card => (
-  <CardSummary key={card.id} card={card} />
-))
+    if (this.props.cards.length > 0) {
+      cardSummaries = this.props.cards.sort().map(card => (
+        <CardSummary key={card.id} card={card}/>
+      ))
+    }
 
-const ListOfCards = (props) => (
-  <div id="cards-container">
-    {cardSummaries}
-  </div>
-);
+    return (
+      <div id="cards-container">
+        {cardSummaries}
+      </div>
+    );
+  }
+}
 
 ListOfCards.propTypes = {
   cards: PropTypes.array
 };
+
+ListOfCards.defaultProps = {
+  cards: []
+}
 
 export default ListOfCards;
