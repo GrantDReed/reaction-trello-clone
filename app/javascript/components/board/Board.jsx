@@ -86,7 +86,7 @@ const Board = props => {
 }
 
 Board.propTypes= {
-  board: PropTypes.object
+  board: PropTypes.object.isRequired
 }
 
 export default Board;

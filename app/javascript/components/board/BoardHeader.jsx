@@ -18,7 +18,7 @@ const BoardHeader = props => (
 )
 
 BoardHeader.propTypes = {
-  title: PropTypes.string.required
+  title: PropTypes.string.isRequired
 }
 
 export default BoardHeader;
