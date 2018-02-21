@@ -18,8 +18,7 @@ describe("Current board actions", () => {
   });
 
   afterEach(() => {
-    apiClient.getBoards.mockClear();
-    apiClient.createBoard.mockClear();
+    apiClient.getBoard.mockClear();
     store.clearActions()
   });
 
@@ -49,11 +48,15 @@ describe("Current board actions", () => {
       const board = {
         id: 1,
         title: 'Super cool board'
-      }
+      };
 
       beforeEach(() => {
         store.dispatch(actions.fetchBoard(1));
 
+        const invocationArgs = apiClient.getBoard.mock.calls[0];
+        const callback = invocationArgs[1];
+
+        callback(board);
         storeActions = store.getActions();
       });
 
@@ -62,6 +65,7 @@ describe("Current board actions", () => {
       });
 
       it("dispatches fetchBoardSuccess()", () => {
+        console.log(storeActions);
         expect(storeActions[1]).toEqual(actions.fetchBoardSuccess(board));
       });
     });
