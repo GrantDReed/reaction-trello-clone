@@ -118,4 +118,56 @@ describe("ApiClient", () => {
       });
     });
   });
+
+  describe("getBoard", () => {
+    const board = {
+      id: 1,
+      title: "My board"
+    };
+
+    describe("successful request", () => {
+      it("calls the callback with the board", async () => {
+        const cb = jest.fn();
+
+        mock.onGet(routes.boardUrl(board.id)).reply(200, board);
+        client.getBoard(board.id, cb);
+
+        await flushPromises();
+
+        expect(cb).toHaveBeenCalledWith(board);
+      });
+    });
+
+    describe("failed request", () => {
+      const originalError = global.console.error;
+      const errorText = "You don't have access to that";
+
+      beforeEach(() => {
+        global.console.error = jest.fn();
+        mock.onGet(routes.boardUrl(board.id)).reply(401, { error: errorText });
+      });
+
+      afterEach(() => {
+        global.console.error = originalError;
+      });
+
+      it("logs the error", async () => {
+        client.getBoard(board.id, (board) => {});
+
+        await flushPromises();
+
+        expect(global.console.error).toHaveBeenCalledWith(`HTTP Error: ${errorText}`);
+      });
+
+      it("doesn't call the callback", async () => {
+        const cb = jest.fn();
+        client.getBoard(board.id, cb);
+
+        await flushPromises();
+
+        expect(cb).not.toHaveBeenCalled();
+      });
+    });
+  });
+
 });
