@@ -1,17 +1,14 @@
-import React from 'react';
-
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 
-const middlewares = [thunk];
-const mockStore = configureStore(middlewares);
+import * as actions from './BoardActions';
+import * as types from '../constants/ActionTypes';
 
 import apiClient from '../lib/ApiClient.js';
 jest.mock('../lib/ApiClient');
 
-import * as actions from './BoardActions';
-import * as types from '../constants/ActionTypes';
-import * as statuses from '../constants/Statuses';
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
 
 describe("Board actions", () => {
   let store;

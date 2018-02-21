@@ -1,11 +1,8 @@
-import React from 'react';
-
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 
 import * as actions from './CurrentBoardActions';
 import * as types from '../constants/ActionTypes';
-import * as statuses from '../constants/Statuses';
 
 import apiClient from '../lib/ApiClient.js';
 jest.mock('../lib/ApiClient');
@@ -54,13 +51,8 @@ describe("Current board actions", () => {
         title: 'Super cool board'
       }
 
-      const cb = jest.fn();
-
       beforeEach(() => {
         store.dispatch(actions.fetchBoard(1));
-
-        const invocationArgs = apiClient.getBoard.mock.calls[0];
-        const callback = invocationArgs[1];
 
         storeActions = store.getActions();
       });
