@@ -1,7 +1,7 @@
 import reducer from './StatusReducer';
 import * as statuses from '../constants/Statuses';
 import * as actions from '../constants/ActionTypes';
-import * as constants from '../actions/BoardActions';
+// import * as constants from '../actions/BoardActions';
 
 describe("StatusReducer", () => {
   describe("unhandled action type", () => {
