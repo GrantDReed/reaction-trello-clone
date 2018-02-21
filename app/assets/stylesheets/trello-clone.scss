@@ -968,6 +968,9 @@ nav > h1:before {
   content: "\e908";
   padding-right: 2px;
 }
+nav a {
+  color: inherit;
+}
 header {
   padding: 8px 8px 8px 10px;
   font-weight: normal;
