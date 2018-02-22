@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import EditableListTitle from './EditableListTitle';
 import ListOfCards from './ListOfCards';
 import AddCardToggle from './AddCardToggle';
 
@@ -17,9 +18,7 @@ const List = props => {
       <div className="list-background">
         <div className="list">
           <a className="more-icon sm-icon" href=""></a>
-          <div>
-            <p className='list-title'>{title}</p>
-          </div>
+          <EditableListTitle list={props.list}/>
           <ListOfCards cards={cards}/>
           <AddCardToggle/>
         </div>
