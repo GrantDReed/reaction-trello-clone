@@ -1,36 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as actions from '../../actions/ListActions';
+import { connect } from "react-redux";
 
 
 class EditableListTitle extends React.Component {
-  static contextTypes = {
-    store: PropTypes.object
-  };
-
   static propTypes = {
-    list: PropTypes.object
+    title: PropTypes.string,
+    listId: PropTypes.number
   };
 
   state = {
-    title: this.props.list.title,
-    showInput: false
-  };
-
-  componentWillReceiveProps = (nextProps) => {
-    this.setState({ showInput: false });
+    title: this.props.title,
+    showForm: false
   };
 
   handleBlur = (e) => {
-    if (e.target.value !== this.props.list.title) {
-      this.context.store.dispatch(
-        actions.updateList(
-          this.props.list.id,
-          { title: e.target.value }
-        )
-      );
+    if (e.target.value !== this.props.title) {
+      this.props.updateList(this.props.listId, { title: this.state.title })
     } else {
-      this.setState({ showInput: false });
+      this.setState({ showForm: false });
     }
   };
 
@@ -43,11 +32,11 @@ class EditableListTitle extends React.Component {
   };
 
   handleTitleClick = (e) => {
-    this.setState({ showInput: true });
+    this.setState({ showForm: true });
   };
 
   render() {
-    if (this.state.showInput) {
+    if (this.state.showForm) {
       return (
         <div>
           <input
@@ -65,7 +54,7 @@ class EditableListTitle extends React.Component {
       return (
         <div>
           <p
-            className={this.'list-title'}
+            className='list-title'
             onClick={this.handleTitleClick}
           >{this.state.title}</p>
         </div>
@@ -74,4 +63,12 @@ class EditableListTitle extends React.Component {
   }
 }
 
-export default EditableListTitle;
+const mapDispatchToProps = dispatch => ({
+  updateList: (listId, titleObj) => {
+    dispatch(actions.updateList(listId, titleObj))
+  },
+})
+
+export default connect(null, mapDispatchToProps)(EditableListTitle);
+
+
