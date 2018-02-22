@@ -8,7 +8,7 @@ class Api::CardsController < ApplicationController
     @board = Board.find(List.find(@card.list_id).board_id)
 
     if @card.save
-      render :create, status: :created
+      render 'api/boards/show', status: :created
     else
       @error = @card.errors.full_messages.join(', ')
       render 'api/shared/error', status: :unprocessable_entity
@@ -24,15 +24,15 @@ class Api::CardsController < ApplicationController
     @board = Board.find(List.find(@card.list_id).board_id)
 
     if @card.update(update_card_params)
-      render :update, status: :updated
+      render 'api/boards/show', status: :updated
     else
       @error = @list.errors.full_messages.join(', ')
-      render 'api/shared/error', status: :unprocesseable_entity
+      render 'api/shared/error', status: :unprocessable_entity
     end
 
   rescue ActionController::ParameterMissing
     @error = "Invalid card data provided"
-    render 'api/shared/error', status: :unprocesseable_entity
+    render 'api/shared/error', status: :unprocessable_entity
   end
 
   private
