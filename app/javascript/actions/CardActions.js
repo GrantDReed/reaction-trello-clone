@@ -6,13 +6,13 @@ export function createCardRequest() {
 }
 
 export function createCardSuccess(board) {
-  return {type: types.CREATE_BOARD_SUCCESS, currentBoard: board};
+  return {type: types.CREATE_CARD_SUCCESS, currentBoard: board};
 }
 
-export function createCard(listId, card) {
+export function createCard(listId, title) {
   return function (dispatch) {
     dispatch(createCardRequest());
-    apiClient.createCard(listId, card, (board) => {
+    apiClient.createCard(listId, title, (board) => {
       dispatch(createCardSuccess(board));
     })
   }
