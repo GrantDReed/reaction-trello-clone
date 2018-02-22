@@ -88,7 +88,6 @@ const Board = props => {
           </div>
         </div>
       </div>
-      <div id="modal-container"/>
       <div id="dropdown-container"/>
     </div>
   )
