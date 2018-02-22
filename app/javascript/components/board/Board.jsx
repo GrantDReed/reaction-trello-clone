@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import BoardHeader from './BoardHeader';
-import ListOfLists from './ListOfLists';
+import ListOfLists from '../list/ListOfLists';
 
 const Board = props => {
   return (
