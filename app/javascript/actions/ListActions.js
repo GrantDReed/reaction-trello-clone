@@ -5,15 +5,15 @@ export function updateListRequest() {
   return { type: types.UPDATE_LIST_REQUEST };
 }
 
-export function updateListSuccess(boardId, listId, updatedList) {
-  return { type: types.UPDATE_LIST_SUCCESS, boardId, listId, updatedList };
+export function updateListSuccess(updatedBoard) {
+  return { type: types.UPDATE_LIST_SUCCESS, currentBoard: updatedBoard };
 }
 
-export function updateList(boardId, listId, data) {
+export function updateList(listId, data) {
   return function(dispatch) {
     dispatch(updateListRequest());
-    apiClient.updateList(boardId, listId, data, updatedList => {
-      dispatch(updateListSuccess(boardId, listId, updatedList));
+    apiClient.updateList(listId, data, updatedBoard => {
+      dispatch(updateListSuccess(updatedBoard));
     });
   }
 }
