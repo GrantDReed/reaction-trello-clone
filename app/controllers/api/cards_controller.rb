@@ -1,35 +1,46 @@
 class Api::CardsController < ApplicationController
-  before_action :set_card, only: [ :show, :edit, :update, :destroy, :move ]
-
   def show
+    @card = Card.find(params[:id])
+    @board = Board.find(List.find(@card.list_id).board_id)
+
+    redirect_to api_board_path
   end
 
   def create
     @card = Card.new(card_params)
-    @board = Board.find(List.find(@cards.list_id).board_id)
+    @board = Board.find(List.find(@card.list_id).board_id)
 
     if @card.save
-      render 'api/boards/show', status: :created
+      redirect_to api_board_path(@board)
     else
       @error = @card.errors.full_messages.join(', ')
       render 'api/shared/error', status: :unprocessable_entity
     end
 
   rescue ActionController::ParameterMissing
-    @error = "Invalid board data provided"
+    @error = "Invalid card data provided"
     render 'api/shared/error', status: :unprocessable_entity
   end
 
   def update
+    @card = Card.find(params[:id])
+    @board = Board.find(List.find(@card.list_id).board_id)
+
+    if @list.update
+      redirect_to api_board_path(@board)
+    else
+      @error = @list.errors.full_messages.join(', ')
+      render 'api/shared/error', status: :unprocesseable_entity
+    end
+
+  rescue ActionController::ParameterMissing
+    @error = "Invalid card data provided"
+    render 'api/shared/error', status: :unprocesseable_entity
   end
 
   private
 
-  def set_card
-    @card = Card.find(params[:id])
-  end
-
   def card_params
-    params.require(:cards).permit(:list_id, :title)
+    params.require(:cards).permit(:title)
   end
 end
