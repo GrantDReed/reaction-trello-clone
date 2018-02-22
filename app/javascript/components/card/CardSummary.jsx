@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import CardDetails from '../card/CardDetails';
+import CardDetails from './CardDetails';
 
 class CardSummary extends React.Component {
   static propTypes = {

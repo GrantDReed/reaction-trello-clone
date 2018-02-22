@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import List from './../list/List';
+import List from './List';
 
 const ListOfLists = props => {
 

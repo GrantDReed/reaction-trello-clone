@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ListOfCards from './ListOfCards';
+import ListOfCards from '../card/ListOfCards';
 import AddCardToggle from '../card/AddCardToggle';
 
 const List = props => {
