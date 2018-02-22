@@ -10,11 +10,11 @@ function reducer(state = {}, action) {
   return {
     boards: boardsReducer(state.boards, action),
     status: statusReducer(state.status, action),
-    currentBoard: currentBoardReducer(state.currentBoard, action)
+    currentBoard: currentBoardReducer(state.currentBoard, action),
   };
 }
 
-const logger = createLogger({collapsed: true,});
+const logger = createLogger({collapsed: true});
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
