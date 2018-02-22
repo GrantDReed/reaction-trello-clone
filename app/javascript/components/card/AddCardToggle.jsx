@@ -25,7 +25,7 @@ class AddCardToggle extends React.Component {
   onSubmit = (title) => {
     console.log('onSubmit in AddCardToggle');
     console.log('this.props.listId', this.props.listId);
-    this.props.createCard(title, this.props.listId)
+    this.props.createCard(this.props.listId, {title})
   };
 
   renderForm = () => {
@@ -54,8 +54,8 @@ AddCardToggle.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  createCard: (title, listId) => {
-    dispatch(actions.createCard(title, listId))
+  createCard: (listId, card) => {
+    dispatch(actions.createCard(listId, card))
   },
 });
 
