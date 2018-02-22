@@ -25,7 +25,7 @@ class Api::CardsController < ApplicationController
     @board = Board.find(@list.board_id)
 
     if @card.update(update_card_params)
-      render 'api/boards/show', status: :updated
+      render 'api/boards/show', status: :ok
     else
       @error = @card.errors.full_messages.join(', ')
       render 'api/shared/error', status: :unprocessable_entity

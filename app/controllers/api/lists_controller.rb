@@ -24,7 +24,7 @@ class Api::ListsController < ApplicationController
     @board = Board.find(@list.board_id)
 
     if @list.update(update_list_params)
-      render 'api/boards/show', status: :updated
+      render 'api/boards/show', status: :ok
     else
       @error = @list.errors.full_messages.join(', ')
       render 'api/shared/error', status: :unprocessable_entity
