@@ -1271,7 +1271,7 @@ main {
   background-color: #cdd2d4;
   color: #4d4d4d;
 }
-.list > div:last-child {
+.list .add-card-toggle {
   padding-left: 10px;
   font-size: 14px;
   border-radius: 0 0 4px 4px;
@@ -1282,7 +1282,7 @@ main {
   cursor: inherit;
   color: #8c8c8c;
 }
-.list > div:last-child:hover {
+.list .add-card-toggle:hover {
   background-color: #cdd2d4;
   text-decoration: underline;
   color: #4d4d4d;
@@ -1678,13 +1678,11 @@ a:-webkit-any-link {
 }
 .add-top,
 .add-bottom {
-  display: none;
 }
 .add-dropdown-active .active-card {
   display: block;
 }
 .add-dropdown-active .add-card-toggle {
-  display: none;
 }
 .button {
   border-radius: 3px;
