@@ -21,12 +21,13 @@ class Api::CardsController < ApplicationController
 
   def update
     @card = Card.find(params[:id])
-    @board = Board.find(List.find(@card.list_id).board_id)
+    @list = List.find(@card.list_id)
+    @board = Board.find(@list.board_id)
 
     if @card.update(update_card_params)
       render 'api/boards/show', status: :updated
     else
-      @error = @list.errors.full_messages.join(', ')
+      @error = @card.errors.full_messages.join(', ')
       render 'api/shared/error', status: :unprocessable_entity
     end
 
