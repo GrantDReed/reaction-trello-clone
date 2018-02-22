@@ -1,9 +1,6 @@
 class Api::CardsController < ApplicationController
   def show
     @card = Card.find(params[:id])
-    @board = Board.find(List.find(@card.list_id).board_id)
-
-    redirect_to api_board_path
   end
 
   def create
@@ -11,7 +8,7 @@ class Api::CardsController < ApplicationController
     @board = Board.find(List.find(@card.list_id).board_id)
 
     if @card.save
-      redirect_to api_board_path(@board)
+      render :create, status: :created
     else
       @error = @card.errors.full_messages.join(', ')
       render 'api/shared/error', status: :unprocessable_entity
@@ -26,8 +23,8 @@ class Api::CardsController < ApplicationController
     @card = Card.find(params[:id])
     @board = Board.find(List.find(@card.list_id).board_id)
 
-    if @list.update
-      redirect_to api_board_path(@board)
+    if @card.update(update_card_params)
+      render :update, status: :updated
     else
       @error = @list.errors.full_messages.join(', ')
       render 'api/shared/error', status: :unprocesseable_entity
@@ -41,6 +38,10 @@ class Api::CardsController < ApplicationController
   private
 
   def card_params
-    params.require(:cards).permit(:title)
+    params.require(:card).permit(:title, :list_id)
+  end
+
+  def update_card_params
+    params.require(:card).permit(:title)
   end
 end
