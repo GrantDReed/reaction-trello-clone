@@ -7,7 +7,7 @@ export default function statusReducer(state, action) {
     case 'FETCH_BOARD_REQUEST':
       return 'FETCHING_BOARD';
     case 'FETCH_BOARD_SUCCESS':
-      return 'BOARD_FETCHED_SUCCESSFULLY'
+      return 'BOARD_FETCHED_SUCCESSFULLY';
     default:
       return state;
   }
