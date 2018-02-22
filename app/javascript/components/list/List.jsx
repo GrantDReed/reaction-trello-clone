@@ -20,7 +20,7 @@ const List = props => {
           <a className="more-icon sm-icon" href=""></a>
           <EditableListTitle listId={props.id} title={props.title}/>
           <ListOfCards cards={cards}/>
-          <AddCardToggle/>
+          <AddCardToggle listId={id}/>
         </div>
       </div>
     </div>

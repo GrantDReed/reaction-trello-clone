@@ -37,6 +37,12 @@ const apiClient = {
       .then(callback)
       .catch(logError);
   },
+  createCard: function(listId, title, callback) {
+    return axios.post(routes.CREATE_CARD_URL, { list_id: listId, title })
+      .then(unwrapData)
+      .then(callback)
+      .catch(logError);
+  },
   updateList: function(listId, list, callback) {
     return axios.put(routes.updateListUrl(listId), { list })
       .then(unwrapData)
