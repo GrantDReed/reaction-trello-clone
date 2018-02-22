@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ListOfCards from './ListOfCards';
-import AddCardToggle from './AddCardToggle';
+import AddCardToggle from '../card/AddCardToggle';
 
 const List = props => {
   const id = props.id || 'loading'
@@ -21,7 +21,7 @@ const List = props => {
             <p className='list-title'>{title}</p>
           </div>
           <ListOfCards cards={cards}/>
-          <AddCardToggle/>
+          <AddCardToggle listId={id}/>
         </div>
       </div>
     </div>
