@@ -7,7 +7,6 @@ export default class NewCardForm extends React.Component {
   };
 
   handleSubmit = () => {
-    console.log('handleSubmit');
     this.props.onSubmit(this.state.value)
   };
 
