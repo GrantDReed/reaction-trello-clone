@@ -1,4 +1,4 @@
-export default function boardsReducer(state = {}, action) {
+export default function currentBoardReducer(state = {}, action) {
   switch (action.type) {
     case 'FETCH_BOARD_SUCCESS':
       return action.currentBoard;
