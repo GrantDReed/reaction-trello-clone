@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 
 import BoardHeader from './BoardHeader';
 import ListOfLists from '../list/ListOfLists';
+import CreateListTile from '../list/CreateListTile';
 
 const Board = props => {
   return (
     <div>
       <BoardHeader title={props.board.title || 'Loading...'}/>
       <main>
-        <ListOfLists lists={props.board.lists}/>
+        <ListOfLists lists={props.board.lists} boardId={props.board.id}/>
       </main>
       <div className="menu-sidebar">
         <div id="menu-main" className="main slide">

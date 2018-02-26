@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import List from './List';
+import CreateListTile from './CreateListTile';
 
 const ListOfLists = props => {
 
-  let lists = 'Loading...'
+  let lists;
 
   if (props.lists.length > 0) {
     lists = props.lists.map(list => {
@@ -15,13 +16,17 @@ const ListOfLists = props => {
 
   return (
     <div id="list-container" className="list-container">
-      {lists}
+      <div id="existing-lists" className="existing-lists">
+        {lists}
+      </div>
+      <CreateListTile boardId={props.boardId}/>
     </div>
   )
 };
 
 ListOfLists.propTypes = {
-  lists: PropTypes.array
+  lists: PropTypes.array,
+  boardId: PropTypes.number
 };
 
 ListOfLists.defaultProps = {

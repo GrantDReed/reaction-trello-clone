@@ -6,3 +6,4 @@ export const boardUrl = (boardId) => `/api/boards/${boardId}`;
 export const CREATE_CARD_URL = '/api/cards';
 
 export const updateListUrl = (listId) => `/api/lists/${listId}`;
+export const CREATE_LIST_URL = '/api/lists';

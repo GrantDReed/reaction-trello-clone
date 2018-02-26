@@ -17,7 +17,7 @@ class EditableListTitle extends React.Component {
 
   handleBlur = (e) => {
     if (e.target.value !== this.props.title) {
-      this.props.updateList(this.props.listId, { title: this.state.title })
+      this.props.updateList(this.props.listId, this.state.title)
     } else {
       this.setState({ showForm: false });
     }
@@ -64,8 +64,8 @@ class EditableListTitle extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateList: (listId, titleObj) => {
-    dispatch(actions.updateList(listId, titleObj))
+  updateList: (listId, title) => {
+    dispatch(actions.updateList(listId, title))
   },
 })
 
