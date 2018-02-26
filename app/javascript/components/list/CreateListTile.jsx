@@ -50,7 +50,7 @@ class CreateListTile extends React.Component {
   render() {
     if (this.state.showForm) {
       return (
-        <div id="new-list">
+        <div className="new-list selected">
           <input
             type="text"
             placeholder="Add a list..."
@@ -70,14 +70,14 @@ class CreateListTile extends React.Component {
             <i
               className="x-icon icon"
               onClick={this.handleCloseClick}
-            ></i>
+            />
           </div>
         </div>
       )
     } else {
       return (
         <div
-          id="new-list"
+          className="new-list"
           onClick={this.handleTileClick}
         >
           <span>Add a list...</span>
