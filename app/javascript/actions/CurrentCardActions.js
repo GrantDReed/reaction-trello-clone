@@ -18,6 +18,23 @@ export function fetchCard(cardId) {
   }
 }
 
+export function updateCurrentCardRequest() {
+  return {type: types.UPDATE_CARD_REQUEST};
+}
+
+export function updateCurrentCardSuccess(card) {
+  return {type: types.UPDATE_CARD_SUCCESS, currentCard: card};
+}
+
+export function updateCurrentCard(cardId, card) {
+  return function (dispatch) {
+    dispatch(updateCurrentCardRequest());
+    apiClient.updateCurrentCard(cardId, card, (newCard) => {
+      dispatch(updateCurrentCardSuccess(newCard));
+    })
+  }
+}
+
 export function createCommentRequest() {
   return {type: types.CREATE_COMMENT_REQUEST};
 }
