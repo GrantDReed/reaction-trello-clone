@@ -29,7 +29,7 @@ export function createCommentSuccess(card) {
 export function createComment(cardId, user, text) {
   return function (dispatch) {
     dispatch(createCommentRequest());
-    apiClient.createCard(cardId, user, text , (card) => {
+    apiClient.createComment(cardId, user, text , (card) => {
       dispatch(createCommentSuccess(card));
     })
   }
