@@ -1,24 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class CardDetails extends React.Component {
+import { connect } from "react-redux";
+import * as actions from "../../actions/CurrentCardActions";
+
+import NewCommentForm from "../comments/NewCommentForm";
+
+class CardDetails extends React.Component {
   static propTypes = {
+    cardId: PropTypes.number.isRequired,
+    onClose: PropTypes.func.isRequired,
     card: PropTypes.object,
-    onClose: PropTypes.func
+    fetchCard: PropTypes.func,
+    createComment: PropTypes.func
+  };
+
+  componentWillMount() {
+    this.props.fetchCard(this.props.cardId);
+  }
+
+  handleSubmitComment = (user, text) => {
+    console.log('handle submit comment in CardDetails');
+    this.props.createComment(this.props.cardId, user, text);
   };
 
   render() {
-    const title = this.props.card.title || 'Loading...';
-
-    return (
-      <div id="modal-container">
-        <div className="screen"/>
-        <div id="modal">
-          <i className="x-icon icon close-modal" onClick={this.props.onClose}/>
+    let content;
+    if (this.props.card.id !== this.props.cardId) {
+      content = (
+        <section className="modal-main">
+          <p>Loading...</p>
+        </section>
+      );
+    } else {
+      content = (
+        <div>
           <header>
-            <textarea className="list-title" defaultValue={title}/>
-            <p>in list <a className="link">Stuff to try (this is a list)</a><i
-              className="sub-icon sm-icon"/>
+            <textarea className="list-title"
+                      defaultValue={this.props.card.title}/>
+            <p>
+              in list <a className="link" onClick={this.props.onClose}>
+                {this.props.card.list_title}
+              </a>
+              <i className="sub-icon sm-icon"/>
             </p>
           </header>
           <section className="modal-main">
@@ -72,30 +96,8 @@ export default class CardDetails extends React.Component {
                   </p>
                 </form>
               </li>
-              <li className="comment-section">
-                <h2 className="comment-icon icon">Add Comment</h2>
-                <div>
-                  <div className="member-container">
-                    <div className="card-member">TP</div>
-                  </div>
-                  <div className="comment">
-                    <label>
-                      <textarea required="" rows="1"
-                                placeholder="Write a comment..."/>
-                      <div>
-                        <a className="light-button card-icon sm-icon"/>
-                        <a className="light-button smiley-icon sm-icon"/>
-                        <a className="light-button email-icon sm-icon"/>
-                        <a className="light-button attachment-icon sm-icon"/>
-                      </div>
-                      <div>
-                        <input type="submit" className="button not-implemented"
-                               value="Save"/>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-              </li>
+              <NewCommentForm cardId={this.props.cardId}
+                              handleSubmit={this.handleSubmitComment}/>
               <li className="activity-section">
                 <h2 className="activity-icon icon">Activity</h2>
                 <ul className="horiz-list">
@@ -114,8 +116,8 @@ export default class CardDetails extends React.Component {
                       className="link">Delete</span></small>
                     <div className="comment">
                       <label>
-                      <textarea required="" rows="1"
-                                placeholder='The activities have not been implemented yet.'/>
+        <textarea required="" rows="1"
+                  placeholder='The activities have not been implemented yet.'/>
                         <div>
                           <a className="light-button card-icon sm-icon"/>
                           <a className="light-button smiley-icon sm-icon"/>
@@ -134,7 +136,8 @@ export default class CardDetails extends React.Component {
                     <div className="member-container">
                       <div className="card-member small-size">VR</div>
                     </div>
-                    <p><span className="member-name">Victor Reyes</span> changed
+                    <p><span
+                      className="member-name">Victor Reyes</span> changed
                       the background of this board <small>yesterday at 4:53
                         PM</small>
                     </p>
@@ -175,7 +178,8 @@ export default class CardDetails extends React.Component {
           <aside className="modal-buttons">
             <h2>Add</h2>
             <ul>
-              <li className="member-button"><i className="person-icon sm-icon"/>Members
+              <li className="member-button"><i
+                className="person-icon sm-icon"/>Members
               </li>
               <li className="label-button"><i className="label-icon sm-icon"/>Labels
               </li>
@@ -213,8 +217,35 @@ export default class CardDetails extends React.Component {
             </ul>
           </aside>
         </div>
+      )
+    }
+    return (
+      <div id="modal-container">
+        <div className="screen"/>
+        <div id="modal">
+          <i className="x-icon icon close-modal"
+             onClick={this.props.onClose}/>
+          {content}
+        </div>
       </div>
-    );
+    )
   }
-};
+}
+
+const mapStateToProps = state => ({
+  card: state.currentCard
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchCard: (cardId) => {
+    dispatch(actions.fetchCard(cardId))
+  },
+  createComment: (cardId, user, text) => {
+    dispatch(actions.createComment(cardId, user, text))
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardDetails);
+
+
 
