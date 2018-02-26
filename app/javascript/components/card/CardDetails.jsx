@@ -20,8 +20,14 @@ class CardDetails extends React.Component {
   }
 
   handleSubmitComment = (user, text) => {
-    console.log('handle submit comment in CardDetails');
     this.props.createComment(this.props.cardId, user, text);
+  };
+
+  userToInitials = (name) => {
+    const initials = name.split(' ').map((n) => {
+      return n[0];
+    });
+    return initials.join('');
   };
 
   render() {
@@ -33,6 +39,25 @@ class CardDetails extends React.Component {
         </section>
       );
     } else {
+      const commentList = this.props.card.comments.map((comment, index) => {
+        return (
+          <li key={index}>
+            <div className="member-container">
+              <div className="card-member">{this.userToInitials(comment.user)}</div>
+            </div>
+            <h3>{comment.user}</h3>
+            <div className="comment static-comment">
+              <span>{comment.text}</span>
+            </div>
+            <small>
+              {comment.date} -
+              <span className="link">Edit</span> -
+              <span className="link">Delete</span>
+            </small>
+          </li>
+        )
+      });
+
       content = (
         <div>
           <header>
@@ -40,8 +65,8 @@ class CardDetails extends React.Component {
                       defaultValue={this.props.card.title}/>
             <p>
               in list <a className="link" onClick={this.props.onClose}>
-                {this.props.card.list_title}
-              </a>
+              {this.props.card.list_title}
+            </a>
               <i className="sub-icon sm-icon"/>
             </p>
           </header>
@@ -104,73 +129,7 @@ class CardDetails extends React.Component {
                   <li className="not-implemented">Show Details</li>
                 </ul>
                 <ul className="modal-activity-list">
-                  <li>
-                    <div className="member-container">
-                      <div className="card-member">TP</div>
-                    </div>
-                    <h3>Taylor Peat</h3>
-                    <div className="comment static-comment"><span>The activities are not functional.</span>
-                    </div>
-                    <small>22 minutes ago - <span
-                      className="link">Edit</span> - <span
-                      className="link">Delete</span></small>
-                    <div className="comment">
-                      <label>
-        <textarea required="" rows="1"
-                  placeholder='The activities have not been implemented yet.'/>
-                        <div>
-                          <a className="light-button card-icon sm-icon"/>
-                          <a className="light-button smiley-icon sm-icon"/>
-                          <a className="light-button email-icon sm-icon"/>
-                        </div>
-                        <div>
-                          <p>You haven't typed anything!</p>
-                          <input type="submit"
-                                 className="button not-implemented"
-                                 value="Save"/>
-                        </div>
-                      </label>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="member-container">
-                      <div className="card-member small-size">VR</div>
-                    </div>
-                    <p><span
-                      className="member-name">Victor Reyes</span> changed
-                      the background of this board <small>yesterday at 4:53
-                        PM</small>
-                    </p>
-                  </li>
-                  <li className="activity-comment">
-                    <div className="member-container">
-                      <div className="card-member">VR</div>
-                    </div>
-                    <h3>Victor Reyes</h3>
-                    <div className="comment static-comment"><span>Example of a comment.</span>
-                    </div>
-                    <small>22 minutes ago - <span
-                      className="link">Edit</span> - <span
-                      className="link">Delete</span></small>
-                    <div className="comment">
-                      <label>
-                        <textarea required=""
-                                  rows="1"
-                                  defaultValue='Example of a comment.'/>
-                        <div>
-                          <a className="light-button card-icon sm-icon"/>
-                          <a className="light-button smiley-icon sm-icon"/>
-                          <a className="light-button email-icon sm-icon"/>
-                        </div>
-                        <div>
-                          <p>You haven't typed anything!</p>
-                          <input type="submit"
-                                 className="button not-implemented"
-                                 value="Save"/>
-                        </div>
-                      </label>
-                    </div>
-                  </li>
+                  {commentList}
                 </ul>
               </li>
             </ul>
@@ -219,6 +178,7 @@ class CardDetails extends React.Component {
         </div>
       )
     }
+
     return (
       <div id="modal-container">
         <div className="screen"/>
