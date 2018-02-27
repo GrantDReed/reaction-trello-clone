@@ -6,6 +6,8 @@ export default function currentBoardReducer(state = {}, action) {
       return action.currentBoard;
     case 'UPDATE_LIST_SUCCESS':
       return action.currentBoard;
+    case 'CREATE_LIST_SUCCESS':
+      return action.currentBoard;
     default:
       return state;
   }
