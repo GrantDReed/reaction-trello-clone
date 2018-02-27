@@ -2,16 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from "react-redux";
+import store from "../../lib/Store";
 import * as actions from "../../actions/CurrentCardActions";
+import * as cbActions from "../../actions/CurrentBoardActions";
 
 import NewCommentForm from "../comments/NewCommentForm";
+import DescriptionToggle from './DescriptionToggle';
 
 class CardDetails extends React.Component {
   static propTypes = {
     cardId: PropTypes.number.isRequired,
     onClose: PropTypes.func.isRequired,
     card: PropTypes.object,
+    fetchBoard: PropTypes.func,
     fetchCard: PropTypes.func,
+    updateCard: PropTypes.func,
     createComment: PropTypes.func
   };
 
@@ -21,6 +26,19 @@ class CardDetails extends React.Component {
 
   handleSubmitComment = (user, text) => {
     this.props.createComment(this.props.cardId, user, text);
+  };
+
+  handleBlurCardTitle = (e) => {
+    this.props.updateCurrentCard(this.props.cardId, {title: e.target.value});
+  };
+
+  handleSubmitDescription = (description) => {
+    this.props.updateCurrentCard(this.props.cardId, {description: description});
+  };
+
+  handleClose = () => {
+    this.props.fetchBoard(store.getState().currentBoard.id);
+    this.props.onClose();
   };
 
   userToInitials = (name) => {
@@ -62,9 +80,11 @@ class CardDetails extends React.Component {
         <div>
           <header>
             <textarea className="list-title"
-                      defaultValue={this.props.card.title}/>
+                      defaultValue={this.props.card.title}
+                      onBlur={this.handleBlurCardTitle}
+            />
             <p>
-              in list <a className="link" onClick={this.props.onClose}>
+              in list <a className="link" onClick={this.handleClose}>
               {this.props.card.list_title}
             </a>
               <i className="sub-icon sm-icon"/>
@@ -109,17 +129,10 @@ class CardDetails extends React.Component {
                     </div>
                   </li>
                 </ul>
-                <form className="description">
-                  <p>Description</p>
-                  <span id="description-edit" className="link">Edit</span>
-                  <p className="textarea-overlay">Cards have a symbol to
-                    indicate if they contain a description.</p>
-                  <p id="description-edit-options" className="hidden">
-                    You have unsaved edits on this field. <span
-                    className="link">View edits</span> - <span
-                    className="link">Discard</span>
-                  </p>
-                </form>
+                <DescriptionToggle
+                  onSubmit={this.handleSubmitDescription}
+                  description={this.props.card.description}
+                />
               </li>
               <NewCommentForm cardId={this.props.cardId}
                               handleSubmit={this.handleSubmitComment}/>
@@ -184,7 +197,7 @@ class CardDetails extends React.Component {
         <div className="screen"/>
         <div id="modal">
           <i className="x-icon icon close-modal"
-             onClick={this.props.onClose}/>
+             onClick={this.handleClose}/>
           {content}
         </div>
       </div>
@@ -200,9 +213,15 @@ const mapDispatchToProps = dispatch => ({
   fetchCard: (cardId) => {
     dispatch(actions.fetchCard(cardId))
   },
+  updateCurrentCard: (cardId, obj) => {
+    dispatch(actions.updateCurrentCard(cardId, obj))
+  },
   createComment: (cardId, user, text) => {
     dispatch(actions.createComment(cardId, user, text))
   },
+  fetchBoard: (boardId) => {
+    dispatch(cbActions.fetchBoard(boardId))
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardDetails);

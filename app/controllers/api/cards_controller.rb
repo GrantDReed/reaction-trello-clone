@@ -27,7 +27,7 @@ class Api::CardsController < ApplicationController
     @board = Board.find(@list.board_id)
 
     if @card.update(update_card_params)
-      render 'api/boards/show', status: :ok
+      render :show, status: :ok
     else
       @error = @card.errors.full_messages.join(', ')
       render 'api/shared/error', status: :unprocessable_entity
@@ -45,6 +45,6 @@ class Api::CardsController < ApplicationController
   end
 
   def update_card_params
-    params.require(:card).permit(:title)
+    params.require(:card).permit(:title, :description)
   end
 end

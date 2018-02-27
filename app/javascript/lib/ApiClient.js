@@ -55,6 +55,12 @@ const apiClient = {
       .then(callback)
       .catch(logError);
   },
+  updateCurrentCard: function(cardId, card, callback) {
+    return axios.put(routes.updateCardUrl(cardId), { card })
+      .then(unwrapData)
+      .then(callback)
+      .catch(logError);
+  },
   createComment: function(cardId, user, text, callback) {
     return axios.post(routes.CREATE_COMMENT_URL, {card_id: cardId, user, text })
       .then(unwrapData)
