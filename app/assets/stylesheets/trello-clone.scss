@@ -3124,28 +3124,28 @@ span.bg-random-grey {
 .details-section .checkbox {
   float: none;
 }
-form.description {
+.description {
   position: relative;
   display: block;
 }
-form.description p + .link {
+.description p + .link {
   padding-left: 8px;
 }
-form.description p + .link:hover {
+.description p + .link:hover {
   color: #111;
 }
-form.description textarea {
+.description textarea {
   display: block;
 }
-form.description textarea + div {
+.description textarea + div {
   display: block;
 }
-form.description .textarea-overlay {
+.description .textarea-overlay {
   color: #4d4d4d;
   padding-bottom: 8px;
   display: block;
 }
-form.description .textarea-toggle {
+.description .textarea-toggle {
   min-height: 110px;
   width: 100%;
   background-color: rgba(0,0,0,0.03);
