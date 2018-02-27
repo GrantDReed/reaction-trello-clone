@@ -7,6 +7,7 @@ import * as actions from "../../actions/CurrentCardActions";
 import * as cbActions from "../../actions/CurrentBoardActions";
 
 import NewCommentForm from "../comments/NewCommentForm";
+import DescriptionToggle from './DescriptionToggle';
 
 class CardDetails extends React.Component {
   static propTypes = {
@@ -29,6 +30,10 @@ class CardDetails extends React.Component {
 
   handleBlurCardTitle = (e) => {
     this.props.updateCurrentCard(this.props.cardId, {title: e.target.value});
+  };
+
+  handleSubmitDescription = (description) => {
+    this.props.updateCurrentCard(this.props.cardId, {description: description});
   };
 
   handleClose = () => {
@@ -124,17 +129,10 @@ class CardDetails extends React.Component {
                     </div>
                   </li>
                 </ul>
-                <form className="description">
-                  <p>Description</p>
-                  <span id="description-edit" className="link">Edit</span>
-                  <p className="textarea-overlay">Cards have a symbol to
-                    indicate if they contain a description.</p>
-                  <p id="description-edit-options" className="hidden">
-                    You have unsaved edits on this field. <span
-                    className="link">View edits</span> - <span
-                    className="link">Discard</span>
-                  </p>
-                </form>
+                <DescriptionToggle
+                  onSubmit={this.handleSubmitDescription}
+                  description={this.props.card.description}
+                />
               </li>
               <NewCommentForm cardId={this.props.cardId}
                               handleSubmit={this.handleSubmitComment}/>
