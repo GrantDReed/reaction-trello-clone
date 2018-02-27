@@ -86,8 +86,10 @@ class CardSummary extends React.Component {
         <div>
           {
             this.state.detailsShown ?
-              <CardDetails card={this.props.card}
-                           onClose={this.toggleDetailsShown}/>
+              <CardDetails
+                cardId={this.props.card.id}
+                onClose={this.toggleDetailsShown}
+              />
               : null
           }
           <div className="card" onClick={this.toggleDetailsShown}>

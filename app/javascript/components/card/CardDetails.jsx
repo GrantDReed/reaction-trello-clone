@@ -1,24 +1,73 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class CardDetails extends React.Component {
+import { connect } from "react-redux";
+import * as actions from "../../actions/CurrentCardActions";
+
+import NewCommentForm from "../comments/NewCommentForm";
+
+class CardDetails extends React.Component {
   static propTypes = {
+    cardId: PropTypes.number.isRequired,
+    onClose: PropTypes.func.isRequired,
     card: PropTypes.object,
-    onClose: PropTypes.func
+    fetchCard: PropTypes.func,
+    createComment: PropTypes.func
+  };
+
+  componentWillMount() {
+    this.props.fetchCard(this.props.cardId);
+  }
+
+  handleSubmitComment = (user, text) => {
+    this.props.createComment(this.props.cardId, user, text);
+  };
+
+  userToInitials = (name) => {
+    const initials = name.split(' ').map((n) => {
+      return n[0];
+    });
+    return initials.join('');
   };
 
   render() {
-    const title = this.props.card.title || 'Loading...';
+    let content;
+    if (this.props.card.id !== this.props.cardId) {
+      content = (
+        <section className="modal-main">
+          <p>Loading...</p>
+        </section>
+      );
+    } else {
+      const commentList = this.props.card.comments.map((comment, index) => {
+        return (
+          <li key={index}>
+            <div className="member-container">
+              <div className="card-member">{this.userToInitials(comment.user)}</div>
+            </div>
+            <h3>{comment.user}</h3>
+            <div className="comment static-comment">
+              <span>{comment.text}</span>
+            </div>
+            <small>
+              {comment.date} -
+              <span className="link">Edit</span> -
+              <span className="link">Delete</span>
+            </small>
+          </li>
+        )
+      });
 
-    return (
-      <div id="modal-container">
-        <div className="screen"/>
-        <div id="modal">
-          <i className="x-icon icon close-modal" onClick={this.props.onClose}/>
+      content = (
+        <div>
           <header>
-            <textarea className="list-title" defaultValue={title}/>
-            <p>in list <a className="link">Stuff to try (this is a list)</a><i
-              className="sub-icon sm-icon"/>
+            <textarea className="list-title"
+                      defaultValue={this.props.card.title}/>
+            <p>
+              in list <a className="link" onClick={this.props.onClose}>
+              {this.props.card.list_title}
+            </a>
+              <i className="sub-icon sm-icon"/>
             </p>
           </header>
           <section className="modal-main">
@@ -72,102 +121,15 @@ export default class CardDetails extends React.Component {
                   </p>
                 </form>
               </li>
-              <li className="comment-section">
-                <h2 className="comment-icon icon">Add Comment</h2>
-                <div>
-                  <div className="member-container">
-                    <div className="card-member">TP</div>
-                  </div>
-                  <div className="comment">
-                    <label>
-                      <textarea required="" rows="1"
-                                placeholder="Write a comment..."/>
-                      <div>
-                        <a className="light-button card-icon sm-icon"/>
-                        <a className="light-button smiley-icon sm-icon"/>
-                        <a className="light-button email-icon sm-icon"/>
-                        <a className="light-button attachment-icon sm-icon"/>
-                      </div>
-                      <div>
-                        <input type="submit" className="button not-implemented"
-                               value="Save"/>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-              </li>
+              <NewCommentForm cardId={this.props.cardId}
+                              handleSubmit={this.handleSubmitComment}/>
               <li className="activity-section">
                 <h2 className="activity-icon icon">Activity</h2>
                 <ul className="horiz-list">
                   <li className="not-implemented">Show Details</li>
                 </ul>
                 <ul className="modal-activity-list">
-                  <li>
-                    <div className="member-container">
-                      <div className="card-member">TP</div>
-                    </div>
-                    <h3>Taylor Peat</h3>
-                    <div className="comment static-comment"><span>The activities are not functional.</span>
-                    </div>
-                    <small>22 minutes ago - <span
-                      className="link">Edit</span> - <span
-                      className="link">Delete</span></small>
-                    <div className="comment">
-                      <label>
-                      <textarea required="" rows="1"
-                                placeholder='The activities have not been implemented yet.'/>
-                        <div>
-                          <a className="light-button card-icon sm-icon"/>
-                          <a className="light-button smiley-icon sm-icon"/>
-                          <a className="light-button email-icon sm-icon"/>
-                        </div>
-                        <div>
-                          <p>You haven't typed anything!</p>
-                          <input type="submit"
-                                 className="button not-implemented"
-                                 value="Save"/>
-                        </div>
-                      </label>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="member-container">
-                      <div className="card-member small-size">VR</div>
-                    </div>
-                    <p><span className="member-name">Victor Reyes</span> changed
-                      the background of this board <small>yesterday at 4:53
-                        PM</small>
-                    </p>
-                  </li>
-                  <li className="activity-comment">
-                    <div className="member-container">
-                      <div className="card-member">VR</div>
-                    </div>
-                    <h3>Victor Reyes</h3>
-                    <div className="comment static-comment"><span>Example of a comment.</span>
-                    </div>
-                    <small>22 minutes ago - <span
-                      className="link">Edit</span> - <span
-                      className="link">Delete</span></small>
-                    <div className="comment">
-                      <label>
-                        <textarea required=""
-                                  rows="1"
-                                  defaultValue='Example of a comment.'/>
-                        <div>
-                          <a className="light-button card-icon sm-icon"/>
-                          <a className="light-button smiley-icon sm-icon"/>
-                          <a className="light-button email-icon sm-icon"/>
-                        </div>
-                        <div>
-                          <p>You haven't typed anything!</p>
-                          <input type="submit"
-                                 className="button not-implemented"
-                                 value="Save"/>
-                        </div>
-                      </label>
-                    </div>
-                  </li>
+                  {commentList}
                 </ul>
               </li>
             </ul>
@@ -175,7 +137,8 @@ export default class CardDetails extends React.Component {
           <aside className="modal-buttons">
             <h2>Add</h2>
             <ul>
-              <li className="member-button"><i className="person-icon sm-icon"/>Members
+              <li className="member-button"><i
+                className="person-icon sm-icon"/>Members
               </li>
               <li className="label-button"><i className="label-icon sm-icon"/>Labels
               </li>
@@ -213,8 +176,36 @@ export default class CardDetails extends React.Component {
             </ul>
           </aside>
         </div>
+      )
+    }
+
+    return (
+      <div id="modal-container">
+        <div className="screen"/>
+        <div id="modal">
+          <i className="x-icon icon close-modal"
+             onClick={this.props.onClose}/>
+          {content}
+        </div>
       </div>
-    );
+    )
   }
-};
+}
+
+const mapStateToProps = state => ({
+  card: state.currentCard
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchCard: (cardId) => {
+    dispatch(actions.fetchCard(cardId))
+  },
+  createComment: (cardId, user, text) => {
+    dispatch(actions.createComment(cardId, user, text))
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardDetails);
+
+
 
