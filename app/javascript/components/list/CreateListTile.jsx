@@ -14,8 +14,8 @@ class CreateListTile extends React.Component {
     showForm: false
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault;
+  newList = () => {
+    if (this.state.title.length === 0) { return };
     this.props.createList(this.props.boardId, this.state.title);
     this.setState({
             showForm: false,
@@ -23,15 +23,14 @@ class CreateListTile extends React.Component {
           });
   };
 
+  handleSubmit = (e) => {
+    e.preventDefault;
+    this.newList();
+  };
+
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      var event = new MouseEvent('click', {
-        'view': window,
-        'bubbles': true,
-        'cancelable': true
-      });
-
-      this.refs.submitButton.dispatchEvent(event);
+      this.newList();
     }
   };
 
@@ -58,6 +57,7 @@ class CreateListTile extends React.Component {
             defaultValue={this.state.title}
             onChange={this.handleChange}
             onKeyPress={this.handleKeyPress}
+            autoFocus
           />
           <div>
             <input
