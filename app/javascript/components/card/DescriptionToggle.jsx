@@ -30,7 +30,7 @@ export default class DescriptionToggle extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state.value);
+
     this.props.onSubmit(this.state.value);
     this.hideForm();
   };
