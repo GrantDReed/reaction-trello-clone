@@ -1,11 +1,13 @@
 class Api::CardsController < ApplicationController
   def show
     @card = Card.find(params[:id])
+    @list = List.find(@card.list_id)
   end
 
   def create
     @card = Card.new(card_params)
-    @board = Board.find(List.find(@card.list_id).board_id)
+    @list = List.find(@card.list_id)
+    @board = Board.find(@list.board_id)
 
     if @card.save
       render 'api/boards/show', status: :created

@@ -37,14 +37,26 @@ const apiClient = {
       .then(callback)
       .catch(logError);
   },
+  updateList: function(listId, list, callback) {
+    return axios.put(routes.updateListUrl(listId), { list })
+      .then(unwrapData)
+      .then(callback)
+      .catch(logError);
+  },
+  fetchCard: function(cardId, callback) {
+    return axios.get(routes.cardUrl(cardId))
+      .then(unwrapData)
+      .then(callback)
+      .catch(logError);
+  },
   createCard: function(listId, title, callback) {
     return axios.post(routes.CREATE_CARD_URL, { list_id: listId, title })
       .then(unwrapData)
       .then(callback)
       .catch(logError);
   },
-  updateList: function(listId, list, callback) {
-    return axios.put(routes.updateListUrl(listId), { list })
+  createComment: function(cardId, user, text, callback) {
+    return axios.post(routes.CREATE_COMMENT_URL, {card_id: cardId, user, text })
       .then(unwrapData)
       .then(callback)
       .catch(logError);
